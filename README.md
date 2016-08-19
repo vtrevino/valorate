@@ -30,8 +30,8 @@ You need Rtools (for example see http://mcglinn.web.unc.edu/blog/linking-c-with-
 - if there is a file valorate_sampling.dll, everthing is ok.
 
 # Example Running VALORATE
-- Place all files in a local directory.
-- Optional but highly recommended: Build C libraries
+- Place all files in a local directory (valorate.R, valorate-sampling.c, uncompressed mutations-BRCA.txt.zip)
+- Optional but highly recommended: Build C library
 - Start R
-- Run "run-valorate.R" (source("run-valorate.R"))
+- Run "run-valorate.R" using source("run-valorate.R")
 
