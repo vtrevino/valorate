@@ -8,26 +8,21 @@ VALORATE estimations of null distribution are quite fast compared to other metho
 To speed up calculations, it is recommended to use the C code. For this, it is needed to compile the code valorate_sampling.c and that the built library (.so or .dll) is located is the same directory than valorate.R (and using chdir=TRUE in the source calling). If having problems or require further information, please read the R writing extension help. In the following, it is assumed that R is already installed.
 
 Mac OS X: 
-Depending on your OS version, it may be needed the XCode and Command line utilities that can be obtained free from Apple.
+Depending on your OS version, it may be needed the XCode and Command line utilities that can be obtained free from Apple. First try without any installation, if fails, install XCode and Command line utilities.
+
+
+Linux: 
+Here is more difficult to tell what would be needed because of all flavours of Linux. However, it should work without additional installations. So, it should be straight forward for a common linux user.
+
+Windows: 
+You need Rtools (for example see http://mcglinn.web.unc.edu/blog/linking-c-with-r-in-windows/).
+
 For building use:
 - Open a Terminal
 - Change directory to the directory where valorate_sampling.c is
 - type "R CMD SHLIB valorate_sampling.c <ENTER>"
-- if there is a file valorate_sampling.so, everthing is ok.
-
-Linux: 
-Here is more difficult to tell what would be needed because of all flavours of Linux. However, it should work without additional installations. So, it should be straight forward for a common linux user.
-- Open a Terminal
-- Change directory to the directory where valorate_sampling.c is
-- type "R CMD SHLIB valorate_sampling.c <ENTER>"
-- if there is a file valorate_sampling.so, everthing is ok.
-
-Windows: 
-You need Rtools (for example see http://mcglinn.web.unc.edu/blog/linking-c-with-r-in-windows/).
-- Open a Terminal
-- Change directory to the directory where valorate_sampling.c is
-- type "R CMD SHLIB valorate_sampling.c <ENTER>"
-- if there is a file valorate_sampling.dll, everthing is ok.
+- Linux and Mac: if there is a file valorate_sampling.so, everthing is ok.
+- Windows:       if there is a file valorate_sampling.dll, everthing is ok.
 
 # Example Running VALORATE
 - Place all files in a local directory (valorate.R, valorate-samplings.c, run-valorate.R, and the uncompressed mutations-BRCA.txt)
