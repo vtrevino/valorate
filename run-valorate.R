@@ -10,6 +10,7 @@
 # VALORATE was designed for cancer genomics where the
 # comparisons between survival groups are heavily unbalanced
 # since the frequency of gene mutations is quite low.
+# Nevertheless, VALORATE should work for standard log-rank tests.
 #
 # This script shows an example for using VALORATE from:
 # (1) mutation matrix
@@ -97,4 +98,29 @@ print(data.frame(Row=o, Gene=rownames(data)[o], p.Valorate=p.v[o], p.SurvDiff=p.
 valorate.survdiff(v.obj, data[o[1], ])
 valorate.plot.empirical(v.obj, data[o[1], ])
 
-## 
+
+
+## Bonus: Comparing running time
+v.obj.R <- new.valorate(
+	time=time, censored=1-status, 
+	sampling.size=sampling.size, 
+	min.sampling.size=min.sampling.size, 
+	sampling.ties=tie.sampling,
+	method="R", 
+	verbose=verbose)
+
+v.obj.C <- new.valorate(
+	time=time, censored=1-status, 
+	sampling.size=sampling.size, 
+	min.sampling.size=min.sampling.size, 
+	sampling.ties=tie.sampling,
+	method="C", 
+	verbose=verbose)
+
+w <- sample(which(nmut == 4), 1)
+system.time(valorate.survdiff(v.obj.R, data[w, ]))
+system.time(valorate.survdiff(v.obj.C, data[w, ]))
+
+w <- sample(which(nmut > 50), 1)
+system.time(print(valorate.survdiff(v.obj.R, data[w, ])))
+system.time(print(valorate.survdiff(v.obj.C, data[w, ])))
