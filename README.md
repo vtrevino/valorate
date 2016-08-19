@@ -29,3 +29,9 @@ You need Rtools (for example see http://mcglinn.web.unc.edu/blog/linking-c-with-
 - type "R CMD SHLIB valorate_sampling.c <ENTER>"
 - if there is a file valorate_sampling.dll, everthing is ok.
 
+# Example Running VALORATE
+(1) Place all files in a local directory.
+(2) Optional but highly recommended: Build C libraries
+(3) Start R
+(4) Run "run-valorate.R" (source("run-valorate.R"))
+
