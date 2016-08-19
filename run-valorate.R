@@ -34,19 +34,6 @@
 # to correspond in order to samples 1, 2, 3, ...
 #######
 
-if (FALSE) {
-	## Use this code to use the file mutations-BRCA.txt containing data from BRCA TCGA.
-	surv <- read.delim("mutations-BRCA.txt", comment.char="", nrow=1, as.is=TRUE, row.names=1)
-	survival <- as.character(surv[1,])
-	brca <- read.delim("mutations-BRCA.txt", comment.char="#", as.is=TRUE, row.names=1)
-	ok <- which(!is.na(survival) & survival != "NA" & survival != "" & survival != "0" & survival != "0+")
-	data <- data.matrix(brca[,ok])
-	time <- as.numeric(gsub("\\+$","",survival[ok]))
-	status <- numeric(length(time))
-	status[] <- 1
-	status[grep("\\+$", survival[ok])] <- 0
-}
-
 ####### VALORATE PARAMETERS #######
 sampling.size <- 100000		## Amount of sampling (larger=better=slower=more memory needed)
 min.sampling.size <- 1000   ## Minimum number of sampling (per co-occurrence item)
@@ -55,6 +42,17 @@ min.mut  <- 4				## minimum number of mutations
 tie.sampling <- 30			## How ties are treated ? ==> 0 : Do not sample ties, > 0 : # of tie samplings
 valorateMethod <- "C"		## "C" or "R" (R is slower), this imply generating the library (.DLL or .SO)
 							## Use R CMD SHLIB valorate_samplings.c in UNIX-LIKE (Linux/Mac OS X) or equivalent in Windows
+
+## Use this code to use the file mutations-BRCA.txt containing data from BRCA TCGA.
+surv <- read.delim("mutations-BRCA.txt", comment.char="", nrow=1, as.is=TRUE, row.names=1)
+survival <- as.character(surv[1,])
+brca <- read.delim("mutations-BRCA.txt", comment.char="#", as.is=TRUE, row.names=1)
+ok <- which(!is.na(survival) & survival != "NA" & survival != "" & survival != "0" & survival != "0+")
+data <- data.matrix(brca[,ok])
+time <- as.numeric(gsub("\\+$","",survival[ok]))
+status <- numeric(length(time))
+status[] <- 1
+status[grep("\\+$", survival[ok])] <- 0
 
 
 ## STEP 1: CREATE VALORATE OBJECT
