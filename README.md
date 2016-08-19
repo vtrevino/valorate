@@ -4,7 +4,7 @@ VALORATE is a procedure to accurately estimate the p-value of the difference in 
 # Running Time
 VALORATE estimations of null distribution are quite fast compared to other methods. Its running time is within the order of seconds or less (for 1 null distribution) depending on the "sampling.size", which is the main parameter. So, for non systematic or sporadic calculations, the running time is insignificant. Nevertheless, for systematic analyses such as in genomics, it may take few minutes. For example, for the BRCA dataset included and the default parameters (minimum mutations = 4), there are 5940 genes and 965 individuals. Running the 'run-valorate.R' in a Mac i7 2.5Ghz, the estimations take less than 8 minutes using the "core" calculations in C (which uses valorate_sampling.c). To estimate these 5940 p-values, VALORATE performed 48 rounds of null distribution estimations corresponding to genes mutated between 4 and 312 individuals. The running time using the "core" calculations in R (parameter method="R") is around 100 times slower (between 70 and 120 depending on the number of mutations -or lowest group size-), however this is useful for users not minded to build external C libraries.
 
-# Building C libraries
+# Building C library
 To speed up calculations, it is recommended to use the C code. For this, it is needed to compile the code valorate_sampling.c and that the built library (.so or .dll) is located is the same directory than valorate.R (and using chdir=TRUE in the source calling). If having problems or require further information, please read the R writing extension help. In the following, it is assumed that R is already installed.
 
 Mac OS X: 
@@ -16,7 +16,7 @@ For building use:
 - if there is a file valorate_sampling.so, everthing is ok.
 
 Linux: 
-It should work without additional installations. But here is more difficult to tell what would be needed because of all flavours of Linux. However, it should be straight forward for a common linux user.
+Here is more difficult to tell what would be needed because of all flavours of Linux. However, it should work without additional installations. So, it should be straight forward for a common linux user.
 - Open a Terminal
 - Change directory to the directory where valorate_sampling.c is
 - type "R CMD SHLIB valorate_sampling.c <ENTER>"
