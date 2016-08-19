@@ -73,11 +73,11 @@ p.v <- numeric(n)
 p.v[] <- 1 # default to 1
 p.sd <- p.v
 risk <- p.v
-timestart.valorate <- Sys.time() #format(Sys.time(), "%Y-%m-%d %H:%M:%S")
 nmut <- apply(data != 0, 1, sum)
 
 
 ## STEP 3: CALCULATE VALORATE & Common Chi-Square test (using SURVDIFF) FOR EVERY GENE
+timestart.valorate <- Sys.time() #format(Sys.time(), "%Y-%m-%d %H:%M:%S")
 for (i in 1:n) {
 	genei <- data[i,]
 	if (nmut[i] >= min.mut) {
@@ -87,8 +87,8 @@ for (i in 1:n) {
 		try(risk[i] <- c(valorate.risk(v.obj, genei)[1],1)[1])
 	}
 }
-
 timeend.valorate <- Sys.time() #format(Sys.time(), "%Y-%m-%d %H:%M:%S")
+
 
 ## STEP 4: SHOW TOP 20 genes
 o <- order(p.v)[1:20]
