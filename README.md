@@ -31,6 +31,7 @@ You need Rtools (for example see http://mcglinn.web.unc.edu/blog/linking-c-with-
 
 # Example Running VALORATE
 - Place all files in a local directory (valorate.R, valorate-samplings.c, run-valorate.R, and the uncompressed mutations-BRCA.txt)
+- Change default directory to above directory
 - Optional but highly recommended: Build C library
 - Start R
 - Run "run-valorate.R" using source("run-valorate.R")
