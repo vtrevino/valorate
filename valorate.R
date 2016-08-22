@@ -226,7 +226,7 @@ new.valorate <- function(time, censored, rank, sampling.size=max(10000,200000/ev
 	}
 	vro@ties <- ties
 	vro@tiesame <- tiesame
-	vro@tiesame.pos <- unlist(tiesame)
+	vro@tiesame.pos <- if (length(tiesame) == 0) 0 else unlist(tiesame)
 	vro@tiesame.sampling <- max(1,sampling.ties*(length(tiesame) > 0))
 	vro@sampling.ties <- 0
 	if (length(ties)) {
