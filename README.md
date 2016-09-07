@@ -22,17 +22,36 @@ You need Rtools (for example see http://mcglinn.web.unc.edu/blog/linking-c-with-
 
 For building use:
 - Open a Terminal
-- Change directory to the directory where valorate_sampling.c is
+- Change directory to the directory where valorate_sampling.c is (don´t forget to replace the <..> for your actual folder)
+
     `cd <valorate directory>`
+
 - Compile the C code within valoratetype "R CMD SHLIB valorate_sampling.c <ENTER>"
+
     `R CMD SHLIB valorate_sampling.c`
+
 - Linux and Mac: if there is a file valorate_sampling.so, everthing is ok.
+
+    `ls -l valorate_sampling.*`
+
 - Windows:       if there is a file valorate_sampling.dll, everthing is ok.
+
+    `dir valorate_sampling.*`
 
 # Example Running VALORATE
 - Place all files in a local directory (valorate.R, valorate-samplings.c, run-valorate.R, and the uncompressed mutations-BRCA.txt)
-- Change default directory to above directory
-- Optional but highly recommended: Build C library
+- Change default directory to above directory (don't forget to replace the <...>)
+
+    `cd <dir>`
+
+- Optional but highly recommended: Build C library (see steps above)
+
 - Start R
-- Run "run-valorate.R" using source("run-valorate.R")
+
+    `R`
+
+- Run "run-valorate.R" within R
+
+    `source("run-valorate.R")`
+    
 
