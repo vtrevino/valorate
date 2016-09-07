@@ -26,7 +26,7 @@ For building use:
 
     `cd <valorate directory>`
 
-- Compile the C code within valoratetype "R CMD SHLIB valorate_sampling.c <ENTER>"
+- Compile the C code within valorate (typing "R CMD SHLIB valorate_sampling.c <ENTER>" as below)
 
     `R CMD SHLIB valorate_sampling.c`
 
