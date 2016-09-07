@@ -1,5 +1,5 @@
 # Valorate
-VALORATE is a procedure to accurately estimate the p-value of the difference in two survival curves using the log-rank test specially in the cases of largely unbalanced groups. Instead of using a normal or chi-squrare, VALORATE estimates the null-distribution by a weighted sum of conditional distributions over a co-occurrence parameter. VALORATE was designed for cancer genomics where the comparisons between survival groups are heavily unbalanced since the frequency of gene mutations is quite low. Nevertheless, VALORATE should work for standard log-rank tests.
+VALORATE is a procedure to accurately estimate the p-value of the difference in two survival curves using the log-rank test specially in the cases of largely unbalanced groups. Instead of using a normal or chi-squrare, VALORATE estimates the null-distribution by a weighted sum of conditional distributions over a co-occurrence parameter. VALORATE was designed for cancer genomics where the comparisons between survival groups are heavily unbalanced since the frequency of gene mutations is quite low. Nevertheless, VALORATE should work for standard log-rank tests. VALORATE was developed in [Victor Trevino Lab] (http://bioinformatica.mty.itesm.mx/Valorate) at [Tecnológico de Monterrey] (http://www.itesm.mx).
 
 # License
 See License file.
