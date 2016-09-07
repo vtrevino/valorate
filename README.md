@@ -23,10 +23,9 @@ You need Rtools (for example see http://mcglinn.web.unc.edu/blog/linking-c-with-
 For building use:
 - Open a Terminal
 - Change directory to the directory where valorate_sampling.c is
-
     `cd <valorate directory>`
-
-- type "R CMD SHLIB valorate_sampling.c <ENTER>"
+- Compile the C code within valoratetype "R CMD SHLIB valorate_sampling.c <ENTER>"
+    `R CMD SHLIB valorate_sampling.c`
 - Linux and Mac: if there is a file valorate_sampling.so, everthing is ok.
 - Windows:       if there is a file valorate_sampling.dll, everthing is ok.
 
