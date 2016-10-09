@@ -56,7 +56,6 @@ For building use:
     
 
 # Known ISSUES
-[October 9th 2016] The C code has a bias in the random selection of samples.
-This has been corrected in the R package submitted to CRAN.
+[October 9th 2016] The C code has a bias in the random selection of samples. The impact is very subtle and it has been corrected in the R package submitted to CRAN.
 It is recommended to use the R package in pipelines.
 See http://bioinformatica.mty.itesm.mx/valorateR
