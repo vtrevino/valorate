@@ -55,3 +55,8 @@ For building use:
     `source("run-valorate.R")`
     
 
+# Known ISSUES
+The C code has a bias in the random selection of samples.
+This has been corrected in the R package submitted to CRAN.
+It is recommended to use the R package in pipelines.
+See http://bioinformatica.mty.itesm.mx/valorateR
