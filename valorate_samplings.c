@@ -20,6 +20,7 @@
 #include <R_ext/Lapack.h>
 #include <Rmath.h>
 #include <time.h>       /* time */
+#define RANDOM_INTEGER ((int) (unif_rand() * 32767))
 
 
 /*
@@ -42,9 +43,11 @@ SEXP valorate_sampling(SEXP s_v, SEXP s_sim, SEXP s_n, SEXP s_k, SEXP s_nx, SEXP
 	}
 */
 
+
+
 void valorate_sampling(double* v, int* psim, int* pn, int* pk, int* pnx, int* wcensored, int* pncensored, int *wevents, int* pnevents, double* weightedevents, double* vcjx, int* pvcjx_n, int* inn1, int* ldx, int* prandomize, int* pdebug, int* allComb) {
 
-	int i,j,m,r;
+	int i,j,m,r,l;
 	double V;
 	int sim = *psim;
 	int n = *pn;
@@ -88,7 +91,13 @@ void valorate_sampling(double* v, int* psim, int* pn, int* pk, int* pnx, int* wc
 				m = nx-k;
 				if (ncensored < m) m = ncensored; // FOR SECURITY and to avoid cycling
 				for (j=0; j < m; j++) {
-					for (r = rand() % ncensored; inn1[wcensored[r]-1] == 1; r = (r+1) % ncensored);
+					// The two lines below are "biased"
+					//for (r = rand() % ncensored; inn1[wcensored[r]-1] == 1; r = (r+1) % ncensored);
+					//inn1[wcensored[r]-1] = 1;
+					// The following are correct!
+					for (r = 0, l = RANDOM_INTEGER % (ncensored-j); l >= 0; l--) {
+						for (r = (r+1) % ncensored; inn1[wcensored[r]-1] == 1; r = (r+1) % ncensored);
+					}
 					inn1[wcensored[r]-1] = 1;
 				}
 			}
@@ -98,7 +107,13 @@ void valorate_sampling(double* v, int* psim, int* pn, int* pk, int* pnx, int* wc
 				m = k;
 				if (nevents < k) m = nevents; // FOR SECURITY and to avoid cycling 
 				for (j=0; j < m; j++) {
-					for (r = rand() % nevents; inn1[wevents[r]-1] == 1; r = (r+1) % nevents);
+					// The two lines below are "biased"
+					//for (r = rand() % nevents; inn1[wevents[r]-1] == 1; r = (r+1) % nevents);
+					//inn1[wevents[r]-1] = 1;
+					// The following are correct!
+					for (r = 0, l = RANDOM_INTEGER % (nevents-j); l >= 0; l--) {
+						for (r = (r+1) % nevents; inn1[wevents[r]-1] == 1; r = (r+1) % nevents);
+					}
 					inn1[wevents[r]-1] = 1;
 				}
 			}			
