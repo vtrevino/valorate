@@ -1,3 +1,4 @@
+// v1.4 - Correct bug of biased random selections
 // v1.3 - Use of all combinations array
 // v1.2 - Weights implementation
 // v1.1 - Ties implementation
