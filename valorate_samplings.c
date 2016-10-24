@@ -1,4 +1,5 @@
-// v1.4 - Correct bug of biased random selections
+// v1.41 - BUG in RANDOM Numbers, it was biased toward larger censorings
+// v1.4 - NO BUG
 // v1.3 - Use of all combinations array
 // v1.2 - Weights implementation
 // v1.1 - Ties implementation
@@ -23,30 +24,7 @@
 #include <time.h>       /* time */
 #define RANDOM_INTEGER ((int) (unif_rand() * 32767))
 
-
-/*
-SEXP valorate_sampling(SEXP s_v, SEXP s_sim, SEXP s_n, SEXP s_k, SEXP s_nx, SEXP s_wcensored, SEXP s_wevents, SEXP s_vcjx, SEXP s_inn1, SEXP s_ldx, SEXP s_randomize) {
-
-	int k = INTEGER(s_k)[0];
-	int nx = INTEGER(s_nx)[0];
-	int sim = INTEGER(s_sim)[0];
-	int n = INTEGER(s_n)[0];
-	int* inn1 = INTEGER(s_inn1);
-	int* ldx = INTEGER(s_ldx);
-	double* v = REAL(s_v);
-	int* wcensored = INTEGER(s_wcensored);
-	int ncensored = LENGTH(s_wcensored);
-	int* wevents = INTEGER(s_wevents);
-	int nevents = LENGTH(s_wcensored);
-
-	if (INTEGER(s_randomize)[0]) {
-		srand(time(NULL));
-	}
-*/
-
-
-
-void valorate_sampling(double* v, int* psim, int* pn, int* pk, int* pnx, int* wcensored, int* pncensored, int *wevents, int* pnevents, double* weightedevents, double* vcjx, int* pvcjx_n, int* inn1, int* ldx, int* prandomize, int* pdebug, int* allComb) {
+void valorate_samplings(double* v, int* psim, int* pn, int* pk, int* pnx, int* wcensored, int* pncensored, int *wevents, int* pnevents, double* weightedevents, double* vcjx, int* pvcjx_n, int* inn1, int* ldx, int* prandomize, int* pdebug, int* allComb) {
 
 	int i,j,m,r,l;
 	double V;
@@ -62,11 +40,13 @@ void valorate_sampling(double* v, int* psim, int* pn, int* pk, int* pnx, int* wc
 	//int matrixlen = nevents * nx;
 
 	if (*prandomize) {
-		srand(time(NULL));
+		//srand(time(NULL));
 	}
 
 	int doAllCombinations = (allComb[0] > 0);
 	int acK = 0;
+
+	GetRNGstate();
 
 	for (i=0; i < sim; i++) {
 
@@ -92,10 +72,9 @@ void valorate_sampling(double* v, int* psim, int* pn, int* pk, int* pnx, int* wc
 				m = nx-k;
 				if (ncensored < m) m = ncensored; // FOR SECURITY and to avoid cycling
 				for (j=0; j < m; j++) {
-					// The two lines below are "biased"
-					//for (r = rand() % ncensored; inn1[wcensored[r]-1] == 1; r = (r+1) % ncensored);
+					//for (r = RANDOM_INTEGER % ncensored; inn1[wcensored[r]-1] == 1; r = (r+1) % ncensored);
 					//inn1[wcensored[r]-1] = 1;
-					// The following are correct!
+					//for (r = 0; inn1[wcensored[r]-1] == 1; r = (r+1) % ncensored);
 					for (r = 0, l = RANDOM_INTEGER % (ncensored-j); l >= 0; l--) {
 						for (r = (r+1) % ncensored; inn1[wcensored[r]-1] == 1; r = (r+1) % ncensored);
 					}
@@ -108,10 +87,9 @@ void valorate_sampling(double* v, int* psim, int* pn, int* pk, int* pnx, int* wc
 				m = k;
 				if (nevents < k) m = nevents; // FOR SECURITY and to avoid cycling 
 				for (j=0; j < m; j++) {
-					// The two lines below are "biased"
-					//for (r = rand() % nevents; inn1[wevents[r]-1] == 1; r = (r+1) % nevents);
+					//for (r = RANDOM_INTEGER % nevents; inn1[wevents[r]-1] == 1; r = (r+1) % nevents);
 					//inn1[wevents[r]-1] = 1;
-					// The following are correct!
+					//for (r = 0; inn1[wevents[r]-1] == 1; r = (r+1) % nevents);
 					for (r = 0, l = RANDOM_INTEGER % (nevents-j); l >= 0; l--) {
 						for (r = (r+1) % nevents; inn1[wevents[r]-1] == 1; r = (r+1) % nevents);
 					}
@@ -120,18 +98,21 @@ void valorate_sampling(double* v, int* psim, int* pn, int* pk, int* pnx, int* wc
 			}			
 		}
 		// Calculate the V statistic
-		// einn1 <- inn1[wevents] // einn1 is not necessary because array is indexed as 0 but it is needed in wevents
-		// ldx <- nx - cumsum(c(0,inn1))[wevents] // ldx will be increased dinamically instead of saving an array
+		// einn1 <- inn1[wevents]#1+inn1[wevents]
+		// ldx <- nx - cumsum(c(0,inn1))[wevents]
+		// os <- if (vcjx.n == 1) 0 else round(runif(1)*(vcjx.n-1))*events # OffSet of the matrix of ties, each of n columns
 		// V <- 0
 		// for (j in 1:events) {
-		// 		if (ldx[j] > 0) V <- V + einn1[j] - vcjx[ldx[j],j]
+		// 	if (ldx[j] == 0) break;
+		// 	V <- V + weightev[j] * (einn1[j]-vcjx[ldx[j],j+os]) #vcjx[ldx[j],j,einn1[j]]
 		// }
+
 		ldx[0] = nx - 1; // in 0 indexes
 		for (j=1; j < n; j++) {
 			ldx[j] = ldx[j-1] - inn1[j-1];
 		}
 		V = 0;
-		offset = (vcjx_n == 1 ? 0 : (rand() % vcjx_n) * nevents);
+		offset = (vcjx_n == 1 ? 0 : (RANDOM_INTEGER % vcjx_n) * nevents);
 		for (j=0; j < nevents && ldx[r=(wevents[j]-1)] >= 0; j++) {
 			//m = ldx[r] + j*nx + inn1[r]*matrixlen;
 			//if (m < 0 || m >=matrixlen*2) {
@@ -143,6 +124,8 @@ void valorate_sampling(double* v, int* psim, int* pn, int* pk, int* pnx, int* wc
 		}
 		v[i] = V;
 	}
+
+	PutRNGstate();
 
 	//return (s_v);
 }
