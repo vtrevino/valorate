@@ -1,5 +1,7 @@
 # Valorate
-VALORATE is a procedure to accurately estimate the p-value of the difference in two survival curves using the log-rank test specially in the cases of largely unbalanced groups. Instead of using a normal or chi-squrare, VALORATE estimates the null-distribution by a weighted sum of conditional distributions over a co-occurrence parameter. VALORATE was designed for cancer genomics where the comparisons between survival groups are heavily unbalanced since the frequency of gene mutations is quite low. Nevertheless, VALORATE should work for standard log-rank tests. VALORATE was developed in [Victor Trevino Lab] (http://bioinformatica.mty.itesm.mx/Valorate) at [Tecnológico de Monterrey] (http://www.itesm.mx) ¡Viva México!.
+VALORATE is a procedure to accurately estimate the p-value of the difference in two survival curves using the log-rank test specially in the cases of largely unbalanced groups. Instead of using a normal or chi-squrare, VALORATE estimates the null-distribution by a weighted sum of conditional distributions over a co-occurrence parameter. VALORATE was designed for cancer genomics where the comparisons between survival groups are heavily unbalanced since the frequency of gene mutations is quite low. Nevertheless, VALORATE should work for standard log-rank tests. VALORATE was developed in [Victor Trevino Lab] (http://bioinformatica.mty.itesm.mx/Valorate [broken]) at [Tecnológico de Monterrey] (http://www.itesm.mx) ¡Viva México!. 
+
+[NOTE: The newest VALORATE R package is available through CRAN https://cran.r-project.org/web/packages/valorate/index.html].
 
 # License
 See License file.
@@ -59,3 +61,5 @@ For building use:
 [October 9th 2016] The C code has a bias in the random selection of samples. The impact is very subtle and it has been corrected in the R package submitted to CRAN.
 It is recommended to use the R package in pipelines.
 See http://bioinformatica.mty.itesm.mx/valorateR
+    
+[NOTE: The newest VALORATE R package is available through CRAN https://cran.r-project.org/web/packages/valorate/index.html].
